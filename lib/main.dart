@@ -1,42 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() => runApp(MyApp());
+import 'app/routes/app_pages.dart';
+import 'app/utils/login_screen.dart';
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      // Application name
-      title: 'Flutter Hello World',
-      // Application theme data, you can set the colors for the application as
-      // you want
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      // A widget which will be started on application startup
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  await GetStorage.init();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((value) => runApp(MyApp()));
 }
 
-class MyHomePage extends StatelessWidget {
-  final String title;
-
-  const MyHomePage({required this.title});
+class MyApp extends StatelessWidget {
+  final authC = Get.put(AuthController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // The title text which will be shown on the action bar
-        title: Text(title),
-      ),
-      body: Center(
-        child: Text(
-          'Hello, World!',
-        ),
-      ),
+    return FutureBuilder(
+      future: Future.delayed(Duration(seconds: 3)),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return Obx(
+            () => GetMaterialApp(
+              title: "ChatApp",
+              theme: ThemeData(
+                brightness: Brightness.light,
+                primaryColor: Colors.white,
+                accentColor: Colors.black,
+                buttonColor: Colors.red[900],
+              ),
+              initialRoute: authC.isSkipIntro.isTrue
+                  ? authC.isAuth.isTrue
+                      ? Routes.HOME
+              getPages: AppPages.routes,
+            ),
+          );
+        }
+        return FutureBuilder(
+          future: authC.firstInitialized(),
+          builder: (context, snapshot) => SplashScreen(),
+        );
+      },
     );
   }
 }
