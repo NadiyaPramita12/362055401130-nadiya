@@ -1,6 +1,6 @@
-import 'package:flutter/Transfer.dart';
 import 'package:flutter/material.dart';
 
+import 'TransferPage.dart';
 import 'main.dart';
 
 class HomePage extends StatefulWidget {
@@ -418,5 +418,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-class TransferPage {}
