@@ -149,7 +149,7 @@ class _TransferPageState extends State<TransferPage> {
       padding: EdgeInsets.symmetric(vertical: 12),
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(width: 1, color: Colors.grey[200]),
+          bottom: BorderSide(width: 1, color: Color.fromARGB(255, 146, 148, 5)),
         ),
       ),
       child: Row(
