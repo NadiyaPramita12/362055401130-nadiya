@@ -1,7 +1,5 @@
+import 'package:financial_app/transfer.dart';
 import 'package:flutter/material.dart';
-
-import 'TransferPage.dart';
-import 'main.dart';
 
 class HomePage extends StatefulWidget {
   @override
